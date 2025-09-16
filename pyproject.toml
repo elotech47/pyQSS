@@ -80,9 +80,6 @@ before-build = "pip install pybind11"
 # Test command
 test-command = "cd /tmp && python -c \"import qss_integrator; from qss_integrator import QssIntegrator, PyQssOde; print('SUCCESS')\""
 
-# Repair wheels for Linux
-repair-wheel-command = "auditwheel repair -w {dest_dir} {wheel}"
-
 # macOS specific settings
 [tool.cibuildwheel.macos]
 # Use the default architecture (universal2 for modern macOS)
@@ -97,6 +94,8 @@ archs = ["AMD64"]
 [tool.cibuildwheel.linux]
 # Use the default architecture
 archs = ["x86_64"]
+# Repair wheels for Linux (auditwheel is Linux-only)
+repair-wheel-command = "auditwheel repair -w {dest_dir} {wheel}"
 
 [tool.setuptools.package-data]
 # Include all compiled extensions and source files
