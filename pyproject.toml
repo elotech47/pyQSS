@@ -65,7 +65,7 @@ Issues = "https://github.com/yourusername/qss-integrator/issues"
 packages = ["qss_integrator"]
 
 [tool.setuptools.package-data]
-qss_integrator = ["*.h", "*.cpp"]
+qss_integrator = ["src/*.h", "src/*.cpp"]
 
 [tool.black]
 line-length = 88
@@ -76,3 +76,22 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.coverage.run]
+source = ["qss_integrator"]
+omit = ["tests/*", "examples/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]

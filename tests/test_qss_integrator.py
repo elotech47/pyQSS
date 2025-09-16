@@ -7,8 +7,8 @@ import numpy as np
 from qss_integrator import QssIntegrator, PyQssOde
 
 
-class TestODE(PyQssOde):
-    """Simple test ODE."""
+class SimpleTestODE(PyQssOde):
+    """Simple test ODE for exponential decay."""
     
     def __init__(self):
         super().__init__(self._ode_function)
@@ -31,7 +31,7 @@ class TestQssIntegrator:
     def test_ode_setup(self):
         """Test setting up an ODE."""
         integrator = QssIntegrator()
-        ode = TestODE()
+        ode = SimpleTestODE()
         integrator.setOde(ode)
         integrator.initialize(1)
         
@@ -44,7 +44,7 @@ class TestQssIntegrator:
     def test_simple_integration(self):
         """Test simple integration."""
         integrator = QssIntegrator()
-        ode = TestODE()
+        ode = SimpleTestODE()
         integrator.setOde(ode)
         integrator.initialize(1)
         
