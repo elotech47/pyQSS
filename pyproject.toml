@@ -78,7 +78,7 @@ environment = { PYTHONPATH = "{project}" }
 before-build = "pip install pybind11"
 
 # Test command
-test-command = "python test_cibuildwheel.py"
+test-command = "python {project}/test_cibuildwheel.py"
 
 # Repair wheels for Linux
 repair-wheel-command = "auditwheel repair -w {dest_dir} {wheel}"
