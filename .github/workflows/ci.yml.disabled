@@ -1,12 +1,13 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline (DEPRECATED - Use build-wheels.yml)
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
-  release:
-    types: [ published ]
+  # Disabled - replaced by build-wheels.yml with cibuildwheel
+  # push:
+  #   branches: [ main, develop ]
+  # pull_request:
+  #   branches: [ main ]
+  # release:
+  #   types: [ published ]
 
 jobs:
   test:
