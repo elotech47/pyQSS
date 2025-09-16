@@ -78,7 +78,7 @@ skip = ["*-win32", "*-musllinux*"]
 before-build = "pip install pybind11"
 
 # Test command
-test-command = "cd /tmp && python -c \"import qss_integrator; from qss_integrator import QssIntegrator, PyQssOde; print('SUCCESS')\""
+test-command = "python -c \"import qss_integrator; from qss_integrator import QssIntegrator, PyQssOde; print('SUCCESS')\""
 
 # macOS specific settings
 [tool.cibuildwheel.macos]
