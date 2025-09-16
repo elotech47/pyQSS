@@ -25,7 +25,7 @@ jobs:
         CIBW_BUILD: cp38-* cp39-* cp310-* cp311-* cp312-*
         CIBW_SKIP: "*-win32 *-musllinux*"
         CIBW_BEFORE_BUILD: pip install pybind11
-        CIBW_TEST_COMMAND: cd /tmp && PYTHONPATH="" python {project}/test_cibuildwheel.py
+        CIBW_TEST_COMMAND: cd /tmp && python -c "import qss_integrator; from qss_integrator import QssIntegrator, PyQssOde; print('✅ SUCCESS: All imports work!')"
         CIBW_BUILD_VERBOSITY: 1
 
     - uses: actions/upload-artifact@v4

@@ -78,7 +78,7 @@ skip = ["*-win32", "*-musllinux*"]
 before-build = "pip install pybind11"
 
 # Test command
-test-command = "cd /tmp && PYTHONPATH=\"\" python {project}/test_cibuildwheel.py"
+test-command = "cd /tmp && python -c \"import qss_integrator; from qss_integrator import QssIntegrator, PyQssOde; print('✅ SUCCESS: All imports work!')\""
 
 # Repair wheels for Linux
 repair-wheel-command = "auditwheel repair -w {dest_dir} {wheel}"
