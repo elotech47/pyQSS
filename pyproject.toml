@@ -66,7 +66,8 @@ packages = ["qss_integrator"]
 include-package-data = true
 
 [tool.setuptools.package-data]
-qss_integrator = ["src/*.h", "src/*.cpp", "*.so"]
+# Include all compiled extensions and source files
+qss_integrator = ["*.so", "*.pyd", "*.dll", "src/*.h", "src/*.cpp"]
 
 [tool.black]
 line-length = 88

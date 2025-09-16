@@ -32,7 +32,13 @@ jobs:
     - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build wheel pybind11 pytest pytest-cov
+        pip install build wheel pybind11 pytest pytest-cov setuptools
+    
+    - name: Clean previous builds
+      run: |
+        rm -rf build/ dist/ *.egg-info/
+        find . -name "*.so" -delete
+        find . -name "__pycache__" -type d -exec rm -rf {} + || true
     
     - name: Build package
       run: |
@@ -63,17 +69,65 @@ jobs:
                 print(f'qss_py files found: {qss_py_files}')
         "
     
-    - name: Install package
-      run: pip install dist/*.whl
-    
-    - name: Verify package installation
+    - name: Install package from wheel
       run: |
-        python -c "import qss_integrator; print('Package imported successfully')"
-        python -c "import qss_integrator; import os; print('qss_integrator path:', qss_integrator.__file__); print('qss_integrator dir:', os.path.dirname(qss_integrator.__file__))"
-        python -c "import qss_integrator; import os; qss_dir = os.path.dirname(qss_integrator.__file__); print('Files in qss_integrator dir:'); [print(f'  {f}') for f in os.listdir(qss_dir)]"
+        pip install dist/*.whl --force-reinstall --no-deps
+        pip install numpy>=1.16.0  # Install dependencies separately
+    
+    - name: Verify package installation - detailed
+      run: |
+        echo "=== Python and pip info ==="
+        python --version
+        pip --version
+        echo "=== Package location ==="
+        python -c "import qss_integrator; print('qss_integrator.__file__:', qss_integrator.__file__)"
+        echo "=== Package directory contents ==="
+        python -c "
+        import qss_integrator
+        import os
+        pkg_dir = os.path.dirname(qss_integrator.__file__)
+        print(f'Package directory: {pkg_dir}')
+        for root, dirs, files in os.walk(pkg_dir):
+            level = root.replace(pkg_dir, '').count(os.sep)
+            indent = ' ' * 2 * level
+            print(f'{indent}{os.path.basename(root)}/')
+            subindent = ' ' * 2 * (level + 1)
+            for file in files:
+                print(f'{subindent}{file}')
+        "
+        echo "=== Module contents ==="
         python -c "import qss_integrator; print('qss_integrator contents:', dir(qss_integrator))"
-        python -c "import qss_integrator.qss_py; print('C++ extension imported successfully')"
-        python -c "from qss_integrator import QssIntegrator; print('QssIntegrator imported successfully')"
+    
+    - name: Test C++ extension import
+      run: |
+        python -c "
+        try:
+            import qss_integrator.qss_py
+            print('✓ C++ extension imported successfully')
+            print('qss_py contents:', dir(qss_integrator.qss_py))
+        except ImportError as e:
+            print('✗ C++ extension import failed:', e)
+            import sys
+            print('Python path:', sys.path[:5])
+            import qss_integrator
+            import os
+            pkg_dir = os.path.dirname(qss_integrator.__file__)
+            print('Looking for .so files in package:')
+            for root, dirs, files in os.walk(pkg_dir):
+                for file in files:
+                    if file.endswith(('.so', '.pyd')):
+                        print(f'  Found: {os.path.join(root, file)}')
+            raise
+        "
+    
+    - name: Test main imports
+      run: |
+        python -c "
+        from qss_integrator import QssIntegrator
+        print('✓ QssIntegrator imported successfully')
+        integrator = QssIntegrator()
+        print('✓ QssIntegrator instantiated successfully')
+        "
     
     - name: Run tests
       run: pytest tests/ -v --cov=qss_integrator --cov-report=xml
@@ -117,7 +171,7 @@ jobs:
     - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build wheel pybind11
+        pip install build wheel pybind11 setuptools
     
     - name: Build package
       run: python -m build
