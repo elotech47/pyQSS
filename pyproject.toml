@@ -7,13 +7,12 @@ name = "qss-integrator"
 version = "0.1.1"
 description = "Quasi-Steady State method for stiff ODE systems with focus on combustion chemistry"
 readme = "README.md"
-license = "MIT"
-license-files = ["LICENSE"]
+license = {text = "MIT"}
 authors = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "Eloghosa", email = "eloghosaefficiency@gmail.com"},
 ]
 maintainers = [
-    {name = "Your Name", email = "your.email@example.com"},
+    {name = "Eloghosa", email = "eloghosaefficiency@gmail.com"},
 ]
 keywords = ["ode", "stiff", "quasi-steady-state", "combustion", "chemical-kinetics", "numerical-methods"]
 classifiers = [
@@ -56,10 +55,10 @@ examples = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/qss-integrator"
-Documentation = "https://qss-integrator.readthedocs.io"
-Repository = "https://github.com/yourusername/qss-integrator.git"
-Issues = "https://github.com/yourusername/qss-integrator/issues"
+Homepage = "https://github.com/elotech47/pyQSS"
+Documentation = "https://github.com/elotech47/pyQSS/blob/main/README.md"
+Repository = "https://github.com/elotech47/pyQSS.git"
+Issues = "https://github.com/elotech47/pyQSS/issues"
 
 [tool.setuptools]
 packages = ["qss_integrator"]
