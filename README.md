@@ -1,6 +1,6 @@
 # QSS Integrator: Quasi-Steady State Method for Stiff ODE Systems
 
-[![Python](https://img.shields.io/badge/python-3.7%2B-blue.svg)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 
@@ -35,7 +35,7 @@ where `q` represents production rates and `d` represents destruction rates.
 
 ### Prerequisites
 
-- Python 3.7 or higher
+- Python 3.8 or higher
 - C++ compiler with C++17 support
 - CMake (for building from source)
 
