@@ -64,6 +64,40 @@ Issues = "https://github.com/elotech47/pyQSS/issues"
 packages = ["qss_integrator"]
 include-package-data = true
 
+[tool.cibuildwheel]
+# Build for multiple Python versions
+build = ["cp38-*", "cp39-*", "cp310-*", "cp311-*", "cp312-*"]
+
+# Skip certain platforms
+skip = ["*-win32", "*-musllinux*"]
+
+# Environment variables
+environment = { PYTHONPATH = "{project}" }
+
+# Before build steps
+before-build = "pip install pybind11"
+
+# Test command
+test-command = "python test_cibuildwheel.py"
+
+# Repair wheels for Linux
+repair-wheel-command = "auditwheel repair -w {dest_dir} {wheel}"
+
+# macOS specific settings
+[tool.cibuildwheel.macos]
+# Use the default architecture (universal2 for modern macOS)
+archs = ["x86_64", "arm64"]
+
+# Windows specific settings  
+[tool.cibuildwheel.windows]
+# Use the default architecture
+archs = ["AMD64"]
+
+# Linux specific settings
+[tool.cibuildwheel.linux]
+# Use the default architecture
+archs = ["x86_64"]
+
 [tool.setuptools.package-data]
 # Include all compiled extensions and source files
 qss_integrator = ["*.so", "*.pyd", "*.dll", "src/*.h", "src/*.cpp"]

@@ -1,0 +1,71 @@
+name: Build wheels
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [ published ]
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019, macos-10.15]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2.16.2
+      env:
+        CIBW_BUILD: cp38-* cp39-* cp310-* cp311-* cp312-*
+        CIBW_SKIP: "*-win32 *-musllinux*"
+        CIBW_BEFORE_BUILD: pip install pybind11
+        CIBW_ENVIRONMENT: "PYTHONPATH={project}"
+        CIBW_REPAIR_WHEEL_COMMAND: "auditwheel repair -w {dest_dir} {wheel}"
+        CIBW_TEST_COMMAND: python test_cibuildwheel.py
+
+    - uses: actions/upload-artifact@v4
+      with:
+        path: ./wheelhouse/*.whl
+        name: wheels
+
+  build_sdist:
+    name: Build source distribution
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build sdist
+      run: pipx run build --sdist
+      
+    - uses: actions/upload-artifact@v4
+      with:
+        path: dist/*.tar.gz
+        name: sdist
+
+  upload_pypi:
+    name: Upload to PyPI
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release'
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: wheels
+        path: dist/wheels
+        
+    - uses: actions/download-artifact@v4
+      with:
+        name: sdist
+        path: dist/sdist
+        
+    - name: Upload to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        packages_dir: dist/

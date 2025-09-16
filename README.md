@@ -53,6 +53,29 @@ cd qss-integrator
 pip install -e .
 ```
 
+### Cross-Platform Builds
+
+This package uses `cibuildwheel` for robust cross-platform builds. The CI/CD pipeline automatically builds wheels for:
+
+- **Linux**: x86_64 (manylinux2014)
+- **macOS**: x86_64 and arm64 (universal2)
+- **Windows**: x86_64 (AMD64)
+
+Python versions supported: 3.8, 3.9, 3.10, 3.11, 3.12
+
+#### Local Testing
+
+To test the build process locally:
+
+```bash
+# Test basic build
+python test_local_build.py
+
+# Test with cibuildwheel (if installed)
+pip install cibuildwheel
+cibuildwheel --platform linux
+```
+
 ### Dependencies
 
 - **Required**: numpy, pybind11
