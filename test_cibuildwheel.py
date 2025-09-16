@@ -30,6 +30,11 @@ def test_class_import():
 def test_basic_functionality():
     """Test basic functionality."""
     try:
+        # Debug: Check where qss_integrator is being imported from
+        import qss_integrator
+        print(f"qss_integrator location: {qss_integrator.__file__}")
+        
+        # Try to import the classes
         from qss_integrator import QssIntegrator, PyQssOde
         
         # Create a simple test ODE
