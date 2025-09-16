@@ -14,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, windows-2019, macos-10.15]
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
     - uses: actions/checkout@v4
@@ -28,6 +28,7 @@ jobs:
         CIBW_ENVIRONMENT: "PYTHONPATH={project}"
         CIBW_REPAIR_WHEEL_COMMAND: "auditwheel repair -w {dest_dir} {wheel}"
         CIBW_TEST_COMMAND: python test_cibuildwheel.py
+        CIBW_BUILD_VERBOSITY: 1
 
     - uses: actions/upload-artifact@v4
       with:

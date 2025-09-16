@@ -25,7 +25,7 @@ ext_modules = [
 
 setup(
     name="qss-integrator",
-    packages=find_packages(),
+    packages=["qss_integrator"],
     ext_modules=ext_modules,
     cmdclass={"build_ext": build_ext},
     zip_safe=False,
