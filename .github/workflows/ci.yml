@@ -35,7 +35,12 @@ jobs:
         pip install build wheel pybind11 pytest pytest-cov
     
     - name: Build package
-      run: python -m build
+      run: |
+        echo "Building package..."
+        python -m build --verbose 2>&1 | tee build.log
+        echo "Build completed"
+        echo "Build log contents:"
+        cat build.log
     
     - name: List build artifacts
       run: ls -la dist/
@@ -54,6 +59,8 @@ jobs:
                     print(f'  {f}')
                 cpp_ext = [f for f in files if f.endswith('.so') or f.endswith('.pyd')]
                 print(f'C++ extensions found: {cpp_ext}')
+                qss_py_files = [f for f in files if 'qss_py' in f]
+                print(f'qss_py files found: {qss_py_files}')
         "
     
     - name: Install package
@@ -62,8 +69,8 @@ jobs:
     - name: Verify package installation
       run: |
         python -c "import qss_integrator; print('Package imported successfully')"
-        python -c "from qss_integrator import QssIntegrator; print('QssIntegrator imported successfully')"
         python -c "import qss_integrator.qss_py; print('C++ extension imported successfully')"
+        python -c "from qss_integrator import QssIntegrator; print('QssIntegrator imported successfully')"
     
     - name: Run tests
       run: pytest tests/ -v --cov=qss_integrator --cov-report=xml
