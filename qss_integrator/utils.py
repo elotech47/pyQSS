@@ -12,7 +12,7 @@ import time
 
 # Try to import the compiled extension
 try:
-    from .qss_py import QssIntegrator, PyQssOde
+    from qss_integrator import QssIntegrator, PyQssOde
 except ImportError:
     QssIntegrator = None
     PyQssOde = None
