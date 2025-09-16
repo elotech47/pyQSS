@@ -224,7 +224,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 - Based on the CHEMEQ2 algorithm
-- Inspired by the work of [relevant papers/authors]
+- Inspired by the Quasi-Steady-State method described in:
+  > Mott, D., Oran, E., & van Leer, B. (2000). A Quasi-Steady-State Solver for the Stiff Ordinary Differential Equations of Reaction Kinetics. *Journal of Computational Physics*, 164(2), 407-428. https://doi.org/10.1006/jcph.2000.6605
 - Built with pybind11 for Python-C++ integration
 
 ## Support

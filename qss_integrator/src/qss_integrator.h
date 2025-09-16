@@ -1,11 +1,16 @@
+/**
+ * @file qss_integrator.h
+ * @brief Header file for the Quasi-Steady-State (QSS) integrator
+ * 
+ * This file defines the QssOde base class and QssIntegrator class for solving
+ * stiff ordinary differential equations using the Quasi-Steady-State method.
+ * 
+ * Based on the CHEMEQ2 algorithm and the work of Mott, Oran, & van Leer (2000).
+ */
+
 #pragma once
 
 #include "mathUtils.h"
-
-// Constants for state vector indexing
-const size_t kMomentum = 0;
-const size_t kEnergy = 1;
-const size_t kSpecies = 2;
 
 //! An %ODE to be solved by QssIntegrator
 class QssOde

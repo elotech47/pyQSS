@@ -7,7 +7,7 @@
 
 using std::abs;
 
-typedef std::vector<double> dvec;
+using dvec = std::vector<double>;
 
 namespace mathUtils
 {
@@ -18,8 +18,8 @@ namespace mathUtils
 
     // Check if vector contains NaN
     inline bool notnan(const dvec& v) {
-        for (size_t i = 0; i < v.size(); i++) {
-            if (!(v[i] > 0) && !(v[i] <= 0)) {
+        for (const auto& val : v) {
+            if (!(val > 0) && !(val <= 0)) {
                 return false;
             }
         }

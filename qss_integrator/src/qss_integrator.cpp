@@ -1,3 +1,17 @@
+/**
+ * @file qss_integrator.cpp
+ * @brief Implementation of the Quasi-Steady-State (QSS) integrator for stiff ODEs
+ * 
+ * This implementation is based on the CHEMEQ2 algorithm and the QSS method described in:
+ * Mott, D., Oran, E., & van Leer, B. (2000). A Quasi-Steady-State Solver for the 
+ * Stiff Ordinary Differential Equations of Reaction Kinetics. Journal of Computational 
+ * Physics, 164(2), 407-428.
+ * 
+ * The QSS method splits ODEs into production (q) and destruction (d) terms:
+ * dy/dt = q(y) - d(y)
+ * where q represents production rates and d represents destruction rates.
+ */
+
 #include "qss_integrator.h"
 #include <iostream>
 #include <algorithm>
@@ -72,19 +86,19 @@ void QssIntegrator::setState(const dvec& yIn, double tstart_)
 void QssIntegrator::getInitialStepSize(double tf)
 {
     firstStep = false;
-    double scrtch = 1.0e-25;
+    double scratch_value = 1.0e-25;
 
     for (size_t i = 0; i < N; i++) {
         if (abs(y[i]) > abstol) {
-            double absq = abs(q[i]);
-            double scr2 = abs(1/y[i]) * sign(0.1*epsmin*absq - d[i]);
-            double scr1 = scr2 * d[i];
-            scrtch = std::max(std::max(scr1, -abs(absq-d[i])*scr2), scrtch);
+            const double absq = abs(q[i]);
+            const double scr2 = abs(1/y[i]) * sign(0.1*epsmin*absq - d[i]);
+            const double scr1 = scr2 * d[i];
+            scratch_value = std::max(std::max(scr1, -abs(absq-d[i])*scr2), scratch_value);
         }
     }
 
-    double sqreps = 0.5;
-    dt = std::min(sqreps/scrtch, tf);
+    const double sqreps = 0.5;
+    dt = std::min(sqreps/scratch_value, tf);
     dt = std::min(dt, dtmax);
 }
 
@@ -174,16 +188,16 @@ int QssIntegrator::integrateOneStep(double tf) {
         // Calculate new f, check for convergence
         eps = 0.0;  // Initialize convergence error
         for (size_t i = 0; i < N; i++) {
-            double scr2 = ys[i] + dt*scratch[i];
+            double new_y = ys[i] + dt*scratch[i];
             if (enforce_ymin[i]) {
-                scr2 = std::max(scr2, ymin[i]);
+                new_y = std::max(new_y, ymin[i]);
             }
-            double scr1 = abs(scr2 - y1[i]);
-            y[i] = std::max(scr2, ymin[i]);
+            double error = abs(new_y - y1[i]);
+            y[i] = std::max(new_y, ymin[i]);
 
             if (abs(y[i]) > abstol && 0.25*(ys[i] + y[i]) > ymin[i]) {
-               scr1 = scr1/y[i];
-               eps = std::max(.5*(scr1+ std::min(abs(q[i]-d[i])/(q[i]+d[i]+1e-30), scr1)),eps);
+               error = error/y[i];
+               eps = std::max(.5*(error+ std::min(abs(q[i]-d[i])/(q[i]+d[i]+1e-30), error)),eps);
             }
         }
         assert(mathUtils::notnan(y));
