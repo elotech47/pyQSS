@@ -48,7 +48,7 @@ pip install qss-integrator
 ### Development Install
 
 ```bash
-git clone https://github.com/yourusername/qss-integrator.git
+git clone https://github.com/elotech47/pyQSS.git
 cd qss-integrator
 pip install -e .
 ```
@@ -193,7 +193,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 ### Development Setup
 
 ```bash
-git clone https://github.com/yourusername/qss-integrator.git
+git clone https://github.com/elotech47/pyQSS.git
 cd qss-integrator
 pip install -e .[dev]
 ```
@@ -211,9 +211,9 @@ If you use this software in your research, please cite:
 ```bibtex
 @software{qss_integrator,
   title={QSS Integrator: Quasi-Steady State Method for Stiff ODE Systems},
-  author={Your Name},
+  author={Eloghosa Ikponmwoba},
   year={2024},
-  url={https://github.com/yourusername/qss-integrator}
+  url={https://github.com/elotech47/pyQSS.git}
 }
 ```
 
@@ -229,6 +229,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Support
 
-- **Documentation**: [https://qss-integrator.readthedocs.io](https://qss-integrator.readthedocs.io)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/qss-integrator/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/qss-integrator/discussions)
+- **Issues**: [GitHub Issues](https://github.com/elotech47/pyQSS/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/elotech47/pyQSS/discussions)
