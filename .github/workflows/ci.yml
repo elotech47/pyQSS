@@ -32,16 +32,38 @@ jobs:
     - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build wheel pybind11
+        pip install build wheel pybind11 pytest pytest-cov
     
     - name: Build package
       run: python -m build
     
+    - name: List build artifacts
+      run: ls -la dist/
+    
+    - name: Check wheel contents
+      run: |
+        python -c "
+        import zipfile
+        import glob
+        wheel_files = glob.glob('dist/*.whl')
+        if wheel_files:
+            with zipfile.ZipFile(wheel_files[0], 'r') as z:
+                files = z.namelist()
+                print('Wheel contents:')
+                for f in sorted(files):
+                    print(f'  {f}')
+                cpp_ext = [f for f in files if f.endswith('.so') or f.endswith('.pyd')]
+                print(f'C++ extensions found: {cpp_ext}')
+        "
+    
     - name: Install package
       run: pip install dist/*.whl
     
-    - name: Install test dependencies
-      run: pip install pytest pytest-cov
+    - name: Verify package installation
+      run: |
+        python -c "import qss_integrator; print('Package imported successfully')"
+        python -c "from qss_integrator import QssIntegrator; print('QssIntegrator imported successfully')"
+        python -c "import qss_integrator.qss_py; print('C++ extension imported successfully')"
     
     - name: Run tests
       run: pytest tests/ -v --cov=qss_integrator --cov-report=xml
