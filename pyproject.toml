@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "pybind11>=2.6"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qss-integrator"
+version = "0.1.0"
+description = "Quasi-Steady State method for stiff ODE systems with focus on combustion chemistry"
+readme = "README.md"
+license = "MIT"
+authors = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+maintainers = [
+    {name = "Your Name", email = "your.email@example.com"},
+]
+keywords = ["ode", "stiff", "quasi-steady-state", "combustion", "chemical-kinetics", "numerical-methods"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: C++",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.7"
+dependencies = [
+    "numpy>=1.16.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "mypy",
+]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "myst-parser",
+]
+examples = [
+    "cantera>=3.0",
+    "matplotlib>=3.0",
+    "scipy>=1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/qss-integrator"
+Documentation = "https://qss-integrator.readthedocs.io"
+Repository = "https://github.com/yourusername/qss-integrator.git"
+Issues = "https://github.com/yourusername/qss-integrator/issues"
+
+[tool.setuptools]
+packages = ["qss_integrator"]
+
+[tool.setuptools.package-data]
+qss_integrator = ["*.h", "*.cpp"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
