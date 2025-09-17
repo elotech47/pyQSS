@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "qss-integrator"
-version = "0.1.1"
+version = "0.1.2"
 description = "Quasi-Steady State method for stiff ODE systems with focus on combustion chemistry"
 readme = "README.md"
 license = {text = "MIT"}
