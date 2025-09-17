@@ -6,7 +6,7 @@ differential equations using the Quasi-Steady State method, with particular
 focus on combustion chemistry applications.
 """
 
-__version__ = "0.1.1"
+__version__ = "0.1.3"
 __author__ = "Eloghosa Ikponmwoba"
 __email__ = "eloghosaefficiency@gmail.com"
 
